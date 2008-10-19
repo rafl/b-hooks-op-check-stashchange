@@ -19,87 +19,88 @@ __END__
 
 =head1 NAME
 
-B::Hooks::OP::Check::EntersubForCV - Invoke callbacks on construction of entersub OPs for certain CVs
+B::Hooks::OP::Check::StashChange - Invoke callbacks when the stash code is being compiled in changes
 
 =head1 SYNOPSIS
 
 =head2 From Perl
 
-    sub foo {}
+    package Foo;
 
-    use B::Hooks::OP::Check::EntersubForCV
-        \&foo => sub { warn "entersub for foo() being compiled" };
+    use B::Hooks::OP::Check::StashChange;
 
-    foo(); # callback is invoked when this like is compiled
+    our $id = B::Hooks::OP::Check::StashChange::register(sub {
+        my ($new, $old) = @_;
+        warn "${old} -> ${new}";
+    });
 
-    no B::Hooks::OP::Check::EntersubForCV \&foo;
+    package Bar; # "Foo -> Bar"
 
-    foo(); # callback isn't invoked
+    B::Hooks::OP::Check::StashChange::unregister($Foo::id);
+
+    package Moo; # callback not invoked
 
 =head2 From C/XS
 
-    #include "hooks_op_check_entersubforcv.h"
+    #include "hooks_op_check_stashchange.h"
 
     STATIC OP *
-    my_callback (pTHX_ OP *op, CV *cv, void *user_data) {
+    my_callback (pTHX_ OP *op, char *new_stash, char *old_stash, void *user_data) {
         /* ... */
         return op;
     }
 
-    hook_op_check_id id;
+    UV id;
 
     /* register callback */
-    id = hook_op_check_entersubforcv (cv, my_callback, NULL);
+    id = hook_op_check_stashchange (cv, my_callback, NULL);
 
     /* unregister */
-    hook_op_check_entersubforcv_remove (id);
+    hook_op_check_stashchange_remove (id);
 
 =head1 DESCRIPTION
 
 =head1 Perl API
 
-=head2 import / register
+=head2 register
 
-    use B::Hooks::OP::Check::EntersubForCV
-        \&code => \&handler;
-
-    # or
-    my $id = B::Hooks::OP::Check::EntersubForCV::register(\&code => \&handler);
-
-Register C<handler> to be executed when an entersub opcode for the CV C<code>
-points to is compiled.
-
-When using C<register> an id that can be used for later removal of the handler
-using C<unregister> is returned.
-
-=head2 unimport / unregister
-
-    no B::Hooks::OP::Check::EntersubForCV \&code;
+    B::Hooks::OP::Check::
 
     # or
-    B::Hooks::OP::Check::EntersubForCV::unregister($id);
+    my $id = B::Hooks::OP::Check::StashChange::register(\&callback);
 
-Stop calling the registered handler for C<code> for all entersubs after this.
+Register C<callback> when an opcode is being compiled in a different namespace
+than the previous one.
+
+An id that can be used for later removal of the handler using C<unregister> is
+returned.
+
+=head2 unregister
+
+    B::Hooks::OP::Check::StashChange::unregister($id);
+
+Disable the callback referenced by C<$id>.
 
 =head1 C API
 
 =head2 TYPES
 
-=head3 OP *(*hook_op_check_entersubforcv_cb) (pTHX_ OP *, CV *, void *)
+=head3 OP *(*hook_op_check_stashchange_cb) (pTHX_ OP *op, const char *new_stash, const char *old_stash, void *user_data)
 
-The type the handlers need to implement.
+The type the callbacks need to implement.
 
 =head2 FUNCTIONS
 
-=head3 hook_op_check_id hook_op_check_entersubforcv (CV *cv, hook_op_check_entersubforcv_cb cb, void *user_data)
+=head3 UV hook_op_check_stashchange (hook_op_check_stashchange_cb cb, void *user_data)
 
-Register the callback C<cb> to be called when an entersub opcode for C<cv> is
-compiled. C<user_data> will be passed to the callback as the last argument.
+Register the callback C<cb> to be when an opcode is compiled in a different
+namespace than the previous. C<user_data> will be passed to the callback as the
+last argument.
 
 Returns an id that can be used to remove the handler using
-C<hook_op_check_entersubforcv_remove>.
+C<hook_op_check_stashchange_remove>.
 
-=head3 void *hook_op_check_entersubforcv_remove (hook_op_check_id id)
+=head3 void *hook_op_check_stashchange_remove (UV id)
 
 Remove a previously registered handler referred to by C<id>.
 
