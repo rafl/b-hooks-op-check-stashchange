@@ -5,7 +5,6 @@ package B::Hooks::OP::Check::StashChange;
 
 use parent qw/DynaLoader/;
 use B::Hooks::OP::Check;
-use Scalar::Util qw/refaddr/;
 
 our $VERSION = '0.01';
 
