@@ -7,7 +7,6 @@ name 'B-Hooks-OP-Check-StashChange';
 all_from 'lib/B/Hooks/OP/Check/StashChange.pm';
 
 requires 'parent';
-requires 'Scalar::Util';
 requires 'B::Hooks::OP::Check' => '0.11';
 build_requires 'B::Hooks::OP::Check' => '0.11';
 configure_requires 'ExtUtils::Depends';
