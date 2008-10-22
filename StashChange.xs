@@ -95,6 +95,8 @@ perl_cb (pTHX_ OP *op, const char *new_stash, const char *old_stash, void *user_
 
 MODULE = B::Hooks::OP::Check::StashChange  PACKAGE = B::Hooks::OP::Check::StashChange
 
+PROTOTYPES: DISABLE
+
 UV
 register (cb)
 		SV *cb
