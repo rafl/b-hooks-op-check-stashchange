@@ -1,2 +1,6 @@
+0.02  Wed, 22 Oct 2008 02:43:53 +0200
+  * configure_require B::Hooks::OP::Check.
+  * Specify prototyping behaviour.
+
 0.01  Sun, 19 Oct 2008 17:26:19 +0200
   * Initial release.
