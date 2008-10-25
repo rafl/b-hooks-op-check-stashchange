@@ -1,3 +1,6 @@
+0.03  Sat, 25 Oct 2008 10:28:46 +0200
+  * Use ppport.h for better portability.
+
 0.02  Wed, 22 Oct 2008 02:43:53 +0200
   * configure_require B::Hooks::OP::Check.
   * Specify prototyping behaviour.
