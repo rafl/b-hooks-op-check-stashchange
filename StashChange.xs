@@ -2,6 +2,8 @@
 #include "perl.h"
 #include "XSUB.h"
 
+#include "ppport.h"
+
 #include "hook_op_check_stashchange.h"
 
 typedef struct userdata_St {
