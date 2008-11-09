@@ -22,6 +22,8 @@ $pkg->save_config('build/IFiles.pm');
 
 makemaker_args(
     $pkg->get_makefile_vars,
+    FUNCLIST => [qw/hook_op_check_stashchange hook_op_check_stashchange_remove/],
+    DL_FUNCS => { 'B::Hooks::OP::Check::StashChange' => [] },
     dist => { PREOP => 'pod2text lib/B/Hooks/OP/Check/StashChange.pm > README' },
 );
 
