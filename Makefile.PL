@@ -7,9 +7,9 @@ name 'B-Hooks-OP-Check-StashChange';
 all_from 'lib/B/Hooks/OP/Check/StashChange.pm';
 
 requires 'parent';
-requires 'B::Hooks::OP::Check' => '0.11';
-build_requires 'B::Hooks::OP::Check' => '0.11';
-configure_requires 'B::Hooks::OP::Check' => '0.11';
+requires 'B::Hooks::OP::Check' => '0.14';
+build_requires 'B::Hooks::OP::Check' => '0.14';
+configure_requires 'B::Hooks::OP::Check' => '0.14';
 configure_requires 'ExtUtils::Depends';
 
 my $pkg = ExtUtils::Depends->new('B::Hooks::OP::Check::StashChange', 'B::Hooks::OP::Check');
