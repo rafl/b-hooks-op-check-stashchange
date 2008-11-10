@@ -83,7 +83,7 @@ perl_cb (pTHX_ OP *op, const char *new_stash, const char *old_stash, void *user_
     PUSHMARK (SP);
     EXTEND (SP, 2);
     PUSHs (sv_2mortal (newSVpv (new_stash, 0)));
-    PUSHs (sv_2mortal (newSVpv (old_stash, 0)));
+    PUSHs (old_stash ? sv_2mortal (newSVpv (old_stash, 0)) : &PL_sv_undef);
     PUTBACK;
 
     call_sv ((SV *)user_data, G_VOID|G_DISCARD);
