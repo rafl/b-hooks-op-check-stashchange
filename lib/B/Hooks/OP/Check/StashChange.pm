@@ -6,7 +6,7 @@ package B::Hooks::OP::Check::StashChange;
 use parent qw/DynaLoader/;
 use B::Hooks::OP::Check;
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 sub dl_load_flags { 0x01 }
 
