@@ -27,6 +27,9 @@ makemaker_args(
     dist => { PREOP => 'pod2text lib/B/Hooks/OP/Check/StashChange.pm > README' },
 );
 
+repository 'git://github.com/rafl/b-hooks-op-check-stashchange.git';
+bugtracker 'http://rt.cpan.org/Public/Dist/Display.html?Name=B-Hooks-OP-Check-StashChange';
+
 extra_tests;
 
 WriteAll;
