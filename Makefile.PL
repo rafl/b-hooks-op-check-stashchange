@@ -8,6 +8,7 @@ all_from 'lib/B/Hooks/OP/Check/StashChange.pm';
 
 requires 'parent';
 requires 'B::Hooks::OP::Check' => '0.14';
+test_requires 'Test::More';
 build_requires 'B::Hooks::OP::Check' => '0.14';
 configure_requires 'B::Hooks::OP::Check' => '0.14';
 configure_requires 'ExtUtils::Depends';
